@@ -1,4 +1,4 @@
-# invcs_testtast
+# invcs_testtask
 # Run project locally:
   - Create .env file from env.dist
   - Run $docker-compose up -d
