@@ -1,0 +1,51 @@
+version: "3.7"
+
+services:
+    seeder-service:
+      build:
+        context: ./seeder_service
+        dockerfile: Dockerfile
+      container_name: seeder-service
+      working_dir: /app
+      environment:
+        DB_HOST: "${DB_HOST}"
+        DB_NAME: "${DB_NAME}"
+        DB_USER: "${DB_USER}"
+        DB_PASS: "${DB_PASS}"
+      networks:
+        - tt_network
+
+    backup-service:
+      build:
+        context: ./backup_service
+        dockerfile: Dockerfile
+      container_name: backup-service
+      working_dir: /app
+      environment:
+        DB_HOST: "${DB_HOST}"
+        DB_NAME: "${DB_NAME}"
+        DB_USER: "${DB_USER}"
+        DB_PASS: "${DB_PASS}"
+        BACKUP_PATH: "${BACKUP_PATH}"
+      networks:
+        - tt_network
+
+    mysql:
+      image: mysql:5.7
+      container_name: mysql
+      working_dir: /app
+      environment:
+        MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD}"
+        MYSQL_DATABASE: "${DB_NAME}"
+        MYSQL_USER: "${DB_USER}"
+        MYSQL_PASSWORD: "${DB_PASS}"
+      volumes:
+        - ./mysql/mysqld.cnf:/etc/mysql/mysql.conf.d/mysqld.cnf
+      ports:
+        - "127.0.0.1:3306:3306"
+      networks:
+        - tt_network
+networks:
+    tt_network:
+        name: tt_network
+
