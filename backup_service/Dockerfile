@@ -4,4 +4,4 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y cron mysql-client
 RUN pip install -r requirements.txt
 
-ENTRYPOINT ["./entrypoint.sh"]
+CMD ["python3.7", "-u", "backup.py"]

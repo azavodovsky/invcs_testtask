@@ -29,6 +29,16 @@ services:
         BACKUP_PATH: "${BACKUP_PATH}"
       networks:
         - tt_network
+    backup-client:
+      build:
+        context: ./backup_client
+        dockerfile: Dockerfile
+      container_name: backup-client
+      working_dir: /app
+      ports:
+       - "2380:2380"
+      networks:
+        - tt_network
 
     mysql:
       image: mysql:5.7
